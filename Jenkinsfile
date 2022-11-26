@@ -8,6 +8,7 @@ pipeline {
             steps {
                 script {
                     app = docker.build("nicole/web-toolkit")
+                    app.tag("${env.BUILD_NUMBER}")
                 }
             }
         }
