@@ -4,7 +4,7 @@ import sys
 
 import flask
 
-from pylocal import *
+from pylocal import core, http
 
 @core.app.route("/")
 def index():
