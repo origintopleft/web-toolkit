@@ -6,4 +6,5 @@ WORKDIR /app
 
 RUN pip install -r requirements.txt
 
-CMD [ "python", "-m", "flask", "/app/web-toolkit.py" ]
+CMD [ "python", "-m", "flask", "--app", "/app/web-toolkit.py", "run", "-p", "1337" ]
+EXPOSE 1337
