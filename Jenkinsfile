@@ -16,7 +16,7 @@ pipeline {
     post {
         success {
             script {
-                docker.withRegistry("https://vcs.otl-hga.net", "gitea") {
+                docker.withRegistry("https://vcs.otl-hga.net", "gitea-basic-auth") {
                     app.push("${env.BUILD_NUMBER}")
                     app.push("latest")
                 }
