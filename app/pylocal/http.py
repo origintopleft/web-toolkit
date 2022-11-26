@@ -12,7 +12,7 @@ def dump_request():
     str_response  = "method: {0}\n".format(flask.request.method)
     str_response += "headers: \n"
     for k, v in flask.request.headers.items():
-        str_response += "    {0} := {1}".format(k, v)
+        str_response += "    {0} := {1}\n".format(k, v)
 
     if flask.request.args:
         str_response += "request args: \n"
