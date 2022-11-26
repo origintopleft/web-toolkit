@@ -2,14 +2,16 @@
 
 import sys
 
-if __name__ == "__main__":
-    print("please don't run me directly, i'm a flask app")
-    sys.exit(0)
+import flask
 
-from flask import Flask
+from pylocal import *
 
-app = Flask(__name__)
-
-@app.route("/")
+@core.app.route("/")
 def index():
     return "<h1>It works!</h1>"
+
+# apache2
+application = core.app
+
+if __name__ == "__main__":
+    core.app.run("0.0.0.0", 1337)
