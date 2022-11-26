@@ -3,8 +3,10 @@ pipeline {
 
     stages {
         stage ("Build") {
-            script {
-                app = docker.build("nicole/web-toolkit")
+            steps {
+                script {
+                    app = docker.build("nicole/web-toolkit")
+                }
             }
         }
     }
