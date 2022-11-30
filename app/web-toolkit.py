@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
 
+import logging
 import sys
 
 import flask
 
 from pylocal import core, http
+
+logging.basicConfig(format="%(asctime)s [%(levelname)s][%(module)s] %(message)s")
+logging.info("web-toolkit preparing to spin up")
 
 @core.app.route("/")
 def index():
@@ -18,9 +22,6 @@ def favicon():
 @core.app.route("/site.webmanifest")
 def sitemanifest():
     return flask.redirect("https://cdn.otl-hga.net/toolkit-branding/site.webmanifest")
-
-# apache2
-application = core.app
 
 if __name__ == "__main__":
     core.app.run("0.0.0.0", 1337)
