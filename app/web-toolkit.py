@@ -5,9 +5,9 @@ import sys
 
 import flask
 
-from pylocal import core, http
+from pylocal import core, http, weather
 
-logging.basicConfig(format="%(asctime)s [%(levelname)s][%(module)s] %(message)s")
+logging.basicConfig(format="%(asctime)s [%(levelname)s][%(module)s] %(message)s", level=logging.INFO)
 logging.info("web-toolkit preparing to spin up")
 
 @core.app.route("/")
