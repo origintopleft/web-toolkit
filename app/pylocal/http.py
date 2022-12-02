@@ -7,6 +7,10 @@ def user_agent():
     """Returns the user agent of the requester."""
     return flask.Response(flask.request.user_agent.string, content_type="text/plain")
 
+@core.app.route("/http/ip_addr")
+def ip_addr():
+    return flask.Response(flask.request.remote_addr, content_type="text/plain")
+
 @core.app.route("/http/dump_request")
 def dump_request():
     str_response  = "method: {0}\n".format(flask.request.method)
