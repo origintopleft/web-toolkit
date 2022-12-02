@@ -87,3 +87,5 @@ def get_temperature():
     result_data["max"]      = dat_weather["main"]["temp_max"]
     result_data["current"]  = dat_weather["main"]["temp"]
     result_data["feels"]    = dat_weather["main"]["feels_like"]
+
+    return flask.Response(json.dumps(result_data), content_type="application/json")
