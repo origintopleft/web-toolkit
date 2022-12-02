@@ -4,6 +4,7 @@ import logging
 import sys
 
 import flask
+from gevent.pywsgi import WSGIServer
 
 from pylocal import core, http, weather
 
@@ -24,4 +25,6 @@ def sitemanifest():
     return flask.redirect("https://cdn.otl-hga.net/toolkit-branding/site.webmanifest")
 
 if __name__ == "__main__":
-    core.app.run("0.0.0.0", 1337)
+    #core.app.run("0.0.0.0", 1337)
+    http_server = WSGIServer(('', 1337), core.app)
+    http_server.serve_forever()
