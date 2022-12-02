@@ -34,6 +34,9 @@ def refresh_data(**tdelta):
     global ts_weatherupdate
     global dat_weather
 
+    if dat_geodata == None:
+        get_geodata()
+
     if dat_weather == None or ts_weatherupdate + datetime.timedelta(**tdelta) < datetime.datetime.now():
         logging.info("refreshing weather data")
         owmreq = requests.get("https://api.openweathermap.org/data/2.5/weather", params={
