@@ -9,7 +9,11 @@ def user_agent():
 
 @core.app.route("/http/ip_addr")
 def ip_addr():
-    return flask.Response(flask.request.remote_addr, content_type="text/plain")
+    remote_addr = flask.request.remote_addr
+    if remote_addr[:7] == "::ffff:":
+        # return IPv4 as IPv4
+        remote_addr = remote_addr[7:]
+    return flask.Response(remote_addr, content_type="text/plain")
 
 @core.app.route("/http/dump_request")
 def dump_request():
