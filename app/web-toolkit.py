@@ -14,7 +14,7 @@ import flask
 from gevent.pywsgi import WSGIServer
 
 # local
-from pylocal import core, http, weather
+from pylocal import core, cloudbox, http, weather
 
 logging.basicConfig(format="%(asctime)s [%(levelname)s][%(module)s] %(message)s", level=logging.INFO)
 logging.info("web-toolkit preparing to spin up")
