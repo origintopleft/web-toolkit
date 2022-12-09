@@ -1,5 +1,7 @@
 import json
+import logging
 import random
+import regex as re
 import string
 
 import flask
@@ -8,11 +10,8 @@ from . import core
 
 allocated_ids = {}
 
-@core.app.route("/cbx/allocate")
-def allocate_id():
-    global allocated_ids
-
-    id = "{0}{1}{2}-{3}".format(
+def generate_id():
+    return "{0}{1}{2}-{3}".format(
         random.choice(string.ascii_uppercase),
         random.choice(string.digits),
         random.choice(string.ascii_uppercase),
@@ -20,9 +19,17 @@ def allocate_id():
         ''.join(random.choice(string.ascii_uppercase + string.digits) for i in range(3))
     )
 
+@core.app.route("/cbx/allocate")
+def allocate_id():
+    global allocated_ids
+
+    id = generate_id()
+    remote_addr = flask.request.remote_addr
+
     allocated_ids[id] = {
-        "addr": flask.request.remote_addr
+        "addr": remote_addr
     }
+    logging.info("allocated id {0} to {1}".format(id, remote_addr))
 
     result_data = {}
     result_data["id"] = id
@@ -33,8 +40,18 @@ def allocate_id():
 def release_id(id):
     global allocated_ids
 
+    rgx_id_validation = re.compile(r"^[A-Z]\d[A-Z]-[A-Z0-9]{3}$")
+    if not rgx_id_validation.fullmatch(id):
+        flask.abort(400)
+
+    if not id in allocated_ids:
+        logging.info("denying release of non-existent ID {0}")
+        # return 503 instead of 404 to prevent enumerations
+        flask.abort(503)
+
     if flask.request.remote_addr == allocated_ids[id]["addr"]:
         del allocated_ids[id]
         return flask.Response("ok", content_type="text/plain")
     else:
+        logging.info("denying release of {0} from mismatched addr {1}".format(id, flask.request.remote_addr))
         flask.abort(503)
