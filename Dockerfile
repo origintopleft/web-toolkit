@@ -8,5 +8,8 @@ RUN pip install -r /app/requirements.txt
 COPY app /app
 WORKDIR /app
 
+RUN mkdir -p /lib/wordlist
+COPY ext/imsky/worklists /lib/wordlist
+
 CMD [ "python", "web-toolkit.py" ]
 EXPOSE 1337
