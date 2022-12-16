@@ -6,7 +6,7 @@ RUN apk add --no-cache rustup gcc musl-dev
 RUN rustup-init -y
 
 # install rant
-RUN cargo install --color never rant --version 4.0.0-alpha.33 --root / --features cli
+RUN cargo install --color=never rant --version 4.0.0-alpha.33 --root / --features cli
 
 # prereqs
 COPY app/requirements.txt /app/requirements.txt
@@ -17,7 +17,7 @@ COPY app /app
 WORKDIR /app
 
 RUN mkdir -p /lib/wordlist
-COPY ext/imsky/worklists /lib/wordlist
+COPY ext/imsky/wordlists /lib/wordlist
 
 COPY lib/rantify_wordlists.py /lib/rantify_wordlists.py
 RUN python /lib/rantify_wordlists.py
