@@ -22,4 +22,4 @@ def init_error():
 
 @core.app.route("/error/dummy")
 def render_dummy_error():
-    return generate_ticket_item()
+    return flask.Response(generate_ticket_item(), content_type="text/plain")
