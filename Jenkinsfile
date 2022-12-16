@@ -3,7 +3,17 @@ pipeline {
         label "docker"
     }
 
+    options {
+        skipDefaultCheckout(true)
+    }
+
     stages {
+        stage ("Checkout") {
+            steps {
+                checkout scm
+                sh "git submodule update --init"
+            }
+        }
         stage ("Build") {
             steps {
                 script {
