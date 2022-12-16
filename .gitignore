@@ -12,3 +12,5 @@
 # Built Visual Studio Code Extensions
 *.vsix
 
+# locally rendered wordlist rant file
+app/rant/wordlist.rant

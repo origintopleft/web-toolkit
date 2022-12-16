@@ -1,0 +1,31 @@
+@require "wordlist"
+
+[$desc_food] @text {
+    {
+        [pick: <wordlist/adjectives/food>] |
+        [pick: <wordlist/adjectives/taste>] |
+        [pick: <wordlist/names/cities/united_states>] |
+        [pick: <wordlist/names/cities/canada>] |
+        [pick: <wordlist/names/cities/spain>] |
+        [pick: <wordlist/names/cities/alpha>]
+    }
+}
+
+[$get_entree] @text {
+    {
+        [pick: <wordlist/nouns/food>] |
+        [pick: <wordlist/nouns/fast_food>]
+    }
+}
+
+[$mod_order] @text {
+    {add|no|sub} `{
+        [pick: <wordlist/nouns/condiments>] |
+        [pick: <wordlist/nouns/cheese>] |
+        [pick: <wordlist/nouns/food>] |
+        [pick: <wordlist/nouns/seasonings>]
+    }
+}
+
+[desc_food] `[either: [maybe: 0.325]; `[pick: <wordlist/nouns/meat>] `[get_entree]; [get_entree]]
+`[either: [maybe]; \n[mod_order]; ""]
