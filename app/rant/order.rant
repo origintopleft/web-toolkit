@@ -19,7 +19,10 @@
 }
 
 [$mod_order] @text {
-    {add|no|sub} `{
+    {
+        add | no | sub | extra |
+        half | left | right
+    } `{
         [pick: <wordlist/nouns/condiments>] |
         [pick: <wordlist/nouns/cheese>] |
         [pick: <wordlist/nouns/food>] |
