@@ -1,8 +1,4 @@
-[submodule "imsky/wordlists"]
+[submodule "ext/imsky/wordlists"]
 path = ext/imsky/wordlists
 url = https://github.com/imsky/wordlists
 branch = master
-[submodule "wordlists"]
-	path = wordlists
-	url = https://github.com/imsky/wordlists
-	branch = master
