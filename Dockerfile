@@ -1,7 +1,12 @@
 FROM python:3.11-alpine
 
-RUN apk add cargo
-RUN cargo install rant --version 4.0.0-alpha.33 --root / --features cli
+# install rust environment (for rant)
+ENV RUSTUP_HOME=/usr/local/rustup CARGO_HOME=/usr/local/cargo PATH=/usr/local/cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin RUST_VERSION=1.61.0
+RUN apk add --no-cache rustup gcc musl-dev
+RUN rustup-init -y
+
+# install rant
+RUN cargo install --color never rant --version 4.0.0-alpha.33 --root / --features cli
 
 # prereqs
 COPY app/requirements.txt /app/requirements.txt
