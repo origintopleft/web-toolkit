@@ -2,12 +2,23 @@
 
 [$desc_food] @text {
     {
-        [pick: <wordlist/adjectives/food>] |
-        [pick: <wordlist/adjectives/taste>] |
-        [pick: <wordlist/names/cities/united_states>] |
-        [pick: <wordlist/names/cities/canada>] |
-        [pick: <wordlist/names/cities/spain>] |
-        [pick: <wordlist/names/cities/alpha>]
+        [pick: <wordlist/adjectives/food>] @weight 1.25 |
+        [pick: <wordlist/adjectives/taste>] @weight 1.1 |
+        [pick: <wordlist/names/cities/united_states>] @weight 1.1 |
+        [pick: <wordlist/names/cities/canada>] @weight 0.9 |
+        [pick: <wordlist/names/cities/spain>] @weight 0.75 |
+        [pick: <wordlist/names/cities/alpha>] @weight 0.5 |
+        { # stuffed/filled/covered
+            `{
+                [pick: <wordlist/nouns/fruit>] @weight 1 |
+                [pick: <wordlist/nouns/food>] @weight 1 |
+                [pick: <wordlist/nouns/cheese>] @weight 1 |
+                [pick: <wordlist/nouns/condiments>] @weight 1 |
+                [pick: <wordlist/nouns/music_theory>] @weight 0.5 |
+                [pick: <wordlist/nouns/set_theory>] @weight 0.25 |
+                [pick: <wordlist/nouns/ghosts>] @weight 0.33
+            } `{stuffed|filled|covered}
+        } @weight 1 # stuffed/filled/covered
     }
 }
 
@@ -31,4 +42,12 @@
 }
 
 [desc_food] `[either: [maybe: 0.325]; `[pick: <wordlist/nouns/meat>] `[get_entree]; [get_entree]]
-`[either: [maybe]; \n[mod_order]; ""]
+[if: [maybe]] {
+    \n[mod_order]
+    [if: [maybe: 0.333]] {
+        \n[mod_order]
+        [if: [maybe: 0.25]] {
+            \n[mod_order]
+        }
+    }
+}
