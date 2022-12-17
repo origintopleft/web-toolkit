@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>{{ page_title }}</title>
+</head>
+<body>
+
+{% for item in order_items %}
+<p>
+{% set itemlines = item.split("\n") %}
+<span class="entree">{{ itemlines[0] }}</span>
+{% if itemlines|length > 1 %}
+{% for line in itemlines[1:] %}
+<br /><span class="mod">{{ line }}</span>
+{% endfor %}
+{% endif %}
+{% endfor %}
+
+</body>
+</html>
