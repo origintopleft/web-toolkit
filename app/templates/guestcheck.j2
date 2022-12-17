@@ -5,16 +5,16 @@
 </head>
 <body>
 
-{% for item in order_items %}
+{%- for item in order_items -%}
 <p>
-{% set itemlines = item.split("\n") %}
+{%- set itemlines = item.split("\n") -%}
 <span class="entree">{{ itemlines[0] }}</span>
-{% if itemlines|length > 1 %}
-{% for line in itemlines[1:] %}
+{%- if itemlines|length > 1 -%}
+{%- for line in itemlines[1:] -%}
 <br /><span class="mod">{{ line }}</span>
-{% endfor %}
-{% endif %}
-{% endfor %}
+{%- endfor -%}
+{%- endif -%}
+{%- endfor -%}
 
 </body>
 </html>
