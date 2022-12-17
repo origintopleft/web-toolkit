@@ -25,7 +25,7 @@ def render_dummy_error():
     if "render" in flask.request.args and flask.request.args["render"] == "testcheck":
         return flask.render_template("guestcheck.j2", **{
             "page_title": "test",
-            "order_items": [generate_ticket_item() * random.randint(1, 4)]
+            "order_items": [generate_ticket_item() for int in range(random.randint(1, 4))]
         })
     else:
         return flask.Response(generate_ticket_item(), content_type="text/plain")
