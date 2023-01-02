@@ -15,4 +15,4 @@ class AttrDict(dict):
 # the only reason this is an exception is because it's in core
 @app.route("/core/apiversion")
 def return_api_version():
-    return flask.Response(apiversion, content_type="text/plain")
+    return flask.Response(str(apiversion), content_type="text/plain")
