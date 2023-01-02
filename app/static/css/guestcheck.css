@@ -1,0 +1,11 @@
+body {
+    font-family: sans-serif;
+}
+
+span.entree {
+    font-weight: bolder;
+}
+
+span.price {
+    font-weight: bold;
+}
