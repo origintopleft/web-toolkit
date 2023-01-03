@@ -3,7 +3,7 @@ import os
 
 import flask
 
-app = flask.Flask(__name__, template_folder="../templates")
+app = flask.Flask(__name__, template_folder="../templates", static_folder="../static")
 apiversion = 1
 
 class AttrDict(dict):
@@ -16,8 +16,3 @@ class AttrDict(dict):
 @app.route("/core/apiversion")
 def return_api_version():
     return flask.Response(str(apiversion), content_type="text/plain")
-
-# static file handling
-@app.route("/static/<path:filepath>")
-def return_static_file(filepath):
-    return flask.send_from_directory("/app/static", filepath)
