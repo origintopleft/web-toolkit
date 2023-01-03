@@ -7,6 +7,7 @@
 {%- endfor -%}
 </head>
 <body>
+<div id="content">
 
 <div class="receipthead">
 <h2>Nicole's Erratic Cafe</h2>
@@ -24,7 +25,7 @@
 <br /><span class="mod">{{ line }}</span>
 {%- endfor -%}
 {%- endif -%}
-</p>
+</div>
 {%- endfor -%}
 
 <div class="receiptdata">
@@ -33,7 +34,12 @@
         <td class="left">TXN ID:</td>
         <td class="right">{{ errcode }}</td>
     </tr>
+    <tr>
+        <td class="left">PAYMENT:</td>
+        <td class="right">{{ ["PISA", "ASCIICARD", "UNCOVER", "APEX"] | random }} XXXX XXXX XXXX {{ range(1111, 10000) | random }}</td>
+    </tr>
 </table>
 
+</div>
 </body>
 </html>

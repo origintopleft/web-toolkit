@@ -1,5 +1,19 @@
 body {
-    font-family: sans-serif;
+    font: 10pt sans-serif;
+    background: #5e133c;
+}
+
+div#content {
+    background: #ffffff;
+    width: 95%;
+    height: 100vh;
+    max-width: 1280px;
+    margin: auto;
+    padding: 20px;
+}
+
+div.receipthead {
+    text-align: center;
 }
 
 div.ticketitem {
@@ -8,6 +22,9 @@ div.ticketitem {
 
 table.receiptdata {
     border: 0px;
+    width: 90%;
+    max-width: 900px;
+    margin: auto;
 }
 
 td.left {
