@@ -2,6 +2,21 @@ body {
     font-family: sans-serif;
 }
 
+div.ticketitem {
+    padding-bottom: 20px;
+}
+
+table.receiptdata {
+    border: 0px;
+}
+
+td.left {
+    text-align: left;
+}
+td.right {
+    text-align: right;
+}
+
 span.entree {
     font-weight: bolder;
 }

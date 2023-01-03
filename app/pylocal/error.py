@@ -22,9 +22,15 @@ def generate_price():
     price = price + random.choice([0.99, 0.49])
     return price
 
-def init_error():
-    # stub
-    return ''.join([random.choice(str_guestcheck_token_characters) for i in range(30)])
+def init_error(nonsense=False):
+    if nonsense:
+        errcode = "NSNSE" + ''.join([random.choice(str_guestcheck_token_characters) for i in range(25)])
+    else:
+        errcode = ''.join([random.choice(str_guestcheck_token_characters) for i in range(30)])
+        while errcode[:5] == "NSNSE":
+            # prevent generating nonsense codes on real errors
+            errcode = ''.join([random.choice(str_guestcheck_token_characters) for i in range(5)]) + errcode[5:]
+    return errcode
 
 @core.app.route("/error/dummy")
 def render_dummy_error():
@@ -45,7 +51,8 @@ def render_dummy_error():
         return flask.render_template("guestcheck.j2", **{
             "page_title": "test",
             "order_items": order_items,
-            "styles": [stylesheet]
+            "styles": [stylesheet],
+            "errcode": init_error(nonsense=True)
         })
     else:
         return flask.Response(generate_ticket_item(), content_type="text/plain")

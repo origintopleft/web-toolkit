@@ -8,10 +8,15 @@
 </head>
 <body>
 
+<div class="receipthead">
+<h2>Nicole's Erratic Cafe</h2>
+<h3>Breaking Internets and Feeding Errors, 24 Hours A Day!</h3>
+</div>
+
 {%- for itemgrp in order_items -%}
 {%- set item = itemgrp[0] -%}
 {%- set price = itemgrp[1] -%}
-<p>
+<div class="ticketitem">
 {%- set itemlines = item.split("\n") -%}
 <span class="entree">{{ itemlines[0] }}</span> <span class="price">${{ price }}</span>
 {%- if itemlines|length > 1 -%}
@@ -21,6 +26,14 @@
 {%- endif -%}
 </p>
 {%- endfor -%}
+
+<div class="receiptdata">
+<table class="receiptdata">
+    <tr>
+        <td class="left">TXN ID:</td>
+        <td class="right">{{ errcode }}</td>
+    </tr>
+</table>
 
 </body>
 </html>
