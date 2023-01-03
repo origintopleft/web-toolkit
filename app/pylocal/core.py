@@ -19,5 +19,5 @@ def return_api_version():
 
 # static file handling
 @app.route("/static/<path:filepath>")
-def return_static_file():
+def return_static_file(filepath):
     return flask.send_from_directory("/app/static", filepath)
