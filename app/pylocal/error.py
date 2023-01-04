@@ -58,26 +58,23 @@ def init_error(nonsense=False):
 
 @core.app.route("/error/dummy")
 def render_dummy_error():
-    if "render" in flask.request.args and flask.request.args["render"] == "testcheck":
-        curhost = flask.request.host.split(":")[0]
-        host_components = curhost.split(".")
-        curdomain = ".".join(host_components[-2:])
-        
-        # all this wind up for...
-        if curdomain == "otl-hga.net": # production
-            stylesheet = "https://cdn.otl-hga.net/toolkit/css/guestcheck.css"
-        else: # dev
-            stylesheet = flask.url_for("static", filename="css/guestcheck.css")
+    curhost = flask.request.host.split(":")[0]
+    host_components = curhost.split(".")
+    curdomain = ".".join(host_components[-2:])
+    
+    # all this wind up for...
+    if curdomain == "otl-hga.net": # production
+        stylesheet = "https://cdn.otl-hga.net/toolkit/css/guestcheck.css"
+    else: # dev
+        stylesheet = flask.url_for("static", filename="css/guestcheck.css")
 
-        order_items = []
-        for _ in range(random.randint(1, 4)):
-            order_items.append((generate_ticket_item(), generate_price()))
-        return flask.render_template("guestcheck.j2", **{
-            "page_title": "test",
-            "order_items": order_items,
-            "styles": [stylesheet],
-            "errcode": init_error(nonsense=True),
-            "taxesfees": generate_taxes_and_fees()
-        })
-    else:
-        return flask.Response(generate_ticket_item(), content_type="text/plain")
+    order_items = []
+    for _ in range(random.randint(1, 4)):
+        order_items.append((generate_ticket_item(), generate_price()))
+    return flask.render_template("guestcheck.j2", **{
+        "page_title": "test",
+        "order_items": order_items,
+        "styles": [stylesheet],
+        "errcode": init_error(nonsense=True),
+        "taxesfees": generate_taxes_and_fees()
+    })
