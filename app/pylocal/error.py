@@ -22,6 +22,30 @@ def generate_price():
     price = price + random.choice([0.99, 0.49])
     return price
 
+def generate_taxes_and_fees():
+    def get_rate():
+        return round(random.uniform(1.76, 9.55), 2)
+
+    def get_flat_fee():
+        return round(random.uniform(0.50, 9.99), 2)
+
+    result = {"tax": get_rate()}
+    fee_types = [
+        "77th Rule Of Acquisition",
+        "Delivery",
+        "Gratuitous Surcharge",
+        "Ratioed on Twitter",
+        "DTB",
+        "Unreal Engine Royalties",
+        "Mileage",
+        "Receipt Fee"
+    ]
+    
+    random.shuffle(fee_types)
+    result["fees"] = [(fee_types.pop(), random.choice([(True, get_rate()), (False, get_flat_fee())])) for i in range(random.randint(1,3))]
+
+    return result
+
 def init_error(nonsense=False):
     if nonsense:
         errcode = "NSNSE" + ''.join([random.choice(str_guestcheck_token_characters) for i in range(25)])
@@ -52,7 +76,8 @@ def render_dummy_error():
             "page_title": "test",
             "order_items": order_items,
             "styles": [stylesheet],
-            "errcode": init_error(nonsense=True)
+            "errcode": init_error(nonsense=True),
+            "taxesfees": generate_taxes_and_fees()
         })
     else:
         return flask.Response(generate_ticket_item(), content_type="text/plain")

@@ -17,6 +17,9 @@ div.receipthead {
 }
 
 div.ticketitem {
+    width: 90%;
+    max-width: 900px;
+    margin: auto;
     padding-bottom: 20px;
 }
 
@@ -32,6 +35,10 @@ td.left {
 }
 td.right {
     text-align: right;
+}
+td.long-right {
+    text-align: right;
+    width: auto;
 }
 
 span.entree {

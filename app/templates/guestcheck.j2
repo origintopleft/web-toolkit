@@ -13,6 +13,7 @@
 <h2>Nicole's Erratic Cafe</h2>
 <h3>Breaking Internets and Feeding Errors, 24 Hours A Day!</h3>
 </div>
+{%- set receiptglobals = {"subtotal": 0.0, "total": 0.0} -%}
 
 {%- for itemgrp in order_items -%}
 {%- set item = itemgrp[0] -%}
@@ -20,6 +21,15 @@
 <div class="ticketitem">
 {%- set itemlines = item.split("\n") -%}
 <span class="entree">{{ itemlines[0] }}</span> <span class="price">${{ price }}</span>
+{#- YMBT: "or ''"? What's that supposed to mean?
+ #        Jinja2 does not have native syntax to just call a function. The output of that function
+ #        must be considered even if it's None (which leads to a lot of little Nones being
+ #        peppered all over the output). However, Jinja2 won't output what's inside double-brackets
+ #        if it's given a condition that evaluates to False (for example, False).
+ #
+ #        If you're comfortable with shell scripts, this effectively acts like `> /dev/null`.
+-#}
+{{ receiptglobals.update({"subtotal": receiptglobals["subtotal"] + price}) or '' }}
 {%- if itemlines|length > 1 -%}
 {%- for line in itemlines[1:] -%}
 <br /><span class="mod">{{ line }}</span>
@@ -27,6 +37,47 @@
 {%- endif -%}
 </div>
 {%- endfor -%}
+
+<div class="receipttotal">
+{{ receiptglobals.update({"total": receiptglobals["subtotal"]}) or '' }}
+<table class="receiptdata">
+    <tr>
+        <td class="long-right"><strong>Subtotal:</strong></td>
+        <td class="right"><strong>{{ receiptglobals["subtotal"] }}</strong></td>
+    </tr>
+    {%- set tax = taxesfees["tax"] -%}
+    {%- set fees = taxesfees["fees"] -%}
+    {%- set taxamt = receiptglobals["subtotal"] * (tax / 100) -%}
+    <tr>
+        <td class="long-right">Sales Tax ({{ tax }} %):</td>
+        <td class="right">{{ "%0.2f" % taxamt }}</td>
+    </tr>
+    {{ receiptglobals.update({"total": receiptglobals["total"] + taxamt}) or '' }}
+    {%- for fee in fees -%}
+    {%- set fee_type = fee[0] -%}
+    {%- set is_rate = fee[1][0] -%}
+    {%- if is_rate -%}
+    {%- set fee_rate = fee[1][1] -%}
+    {%- set feeamt = receiptglobals["subtotal"] * (fee_rate / 100) -%}
+    <tr>
+        <td class="long-right">{{ fee_type }} ({{ fee_rate }} %):</td>
+        <td class="right">{{ "%0.2f" % feeamt }}</td>
+    </tr>
+    {%- else -%}
+    {%- set feeamt = fee[1][1] -%}
+    <tr>
+        <td class="long-right">{{ fee_type }}:</td>
+        <td class="right">{{ feeamt }}</td>
+    </tr>
+    {%- endif -%}
+    {{ receiptglobals.update({"total": receiptglobals["total"] + feeamt}) or '' }}
+    {%- endfor -%}
+    <tr>
+        <td class="long-right"><h3>Balance Due:</h3></td>
+        <td class="right"><h3>{{ "%0.2f" % receiptglobals["total"] }}</h3></td>
+    </tr>
+</table>
+</div>
 
 <div class="receiptdata">
 <table class="receiptdata">
