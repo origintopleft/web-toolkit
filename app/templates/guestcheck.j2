@@ -20,37 +20,40 @@
 {%- set price = itemgrp[1] -%}
 <div class="ticketitem">
 {%- set itemlines = item.split("\n") -%}
-<span class="entree">{{ itemlines[0] }}</span> <span class="price">${{ price }}</span>
+<div class="itemdesc">
+<span class="entree">{{ itemlines[0] }}</span>
 {#- YMBT: "or ''"? What's that supposed to mean?
  #        Jinja2 does not have native syntax to just call a function. The output of that function
  #        must be considered even if it's None (which leads to a lot of little Nones being
- #        peppered all over the output). However, Jinja2 won't output what's inside double-brackets
- #        if it's given a condition that evaluates to False (for example, False).
+ #        peppered all over the output). However, Jinja2 won't output None if given an or with a
+          string (for instance, '').
  #
  #        If you're comfortable with shell scripts, this effectively acts like `> /dev/null`.
 -#}
-{{ receiptglobals.update({"subtotal": receiptglobals["subtotal"] + price}) or '' }}
 {%- if itemlines|length > 1 -%}
 {%- for line in itemlines[1:] -%}
 <br /><span class="mod">{{ line }}</span>
 {%- endfor -%}
 {%- endif -%}
 </div>
+<div class="itemprice"> <span class="price">{{ currency }}{{ price }}</span> </div>
+{{ receiptglobals.update({"subtotal": receiptglobals["subtotal"] + price}) or '' }}
+</div>
 {%- endfor -%}
 
 <div class="receipttotal">
 {{ receiptglobals.update({"total": receiptglobals["subtotal"]}) or '' }}
-<table class="receiptdata">
+<table class="receipttotal">
     <tr>
         <td class="long-right"><strong>Subtotal:</strong></td>
-        <td class="right"><strong>{{ receiptglobals["subtotal"] }}</strong></td>
+        <td class="right"><strong>{{ currency }}{{ receiptglobals["subtotal"] }}</strong></td>
     </tr>
     {%- set tax = taxesfees["tax"] -%}
     {%- set fees = taxesfees["fees"] -%}
     {%- set taxamt = receiptglobals["subtotal"] * (tax / 100) -%}
     <tr>
         <td class="long-right">Sales Tax ({{ tax }} %):</td>
-        <td class="right">{{ "%0.2f" % taxamt }}</td>
+        <td class="right">{{ currency }}{{ "%0.2f" % taxamt }}</td>
     </tr>
     {{ receiptglobals.update({"total": receiptglobals["total"] + taxamt}) or '' }}
     {%- for fee in fees -%}
@@ -61,20 +64,20 @@
     {%- set feeamt = receiptglobals["subtotal"] * (fee_rate / 100) -%}
     <tr>
         <td class="long-right">{{ fee_type }} ({{ fee_rate }} %):</td>
-        <td class="right">{{ "%0.2f" % feeamt }}</td>
+        <td class="right">{{ currency }}{{ "%0.2f" % feeamt }}</td>
     </tr>
     {%- else -%}
     {%- set feeamt = fee[1][1] -%}
     <tr>
         <td class="long-right">{{ fee_type }}:</td>
-        <td class="right">{{ feeamt }}</td>
+        <td class="right">{{ currency }}{{ feeamt }}</td>
     </tr>
     {%- endif -%}
     {{ receiptglobals.update({"total": receiptglobals["total"] + feeamt}) or '' }}
     {%- endfor -%}
     <tr>
         <td class="long-right"><h3>Balance Due:</h3></td>
-        <td class="right"><h3>{{ "%0.2f" % receiptglobals["total"] }}</h3></td>
+        <td class="right"><h3>{{ currency }}{{ "%0.2f" % receiptglobals["total"] }}</h3></td>
     </tr>
 </table>
 </div>
@@ -87,7 +90,7 @@
     </tr>
     <tr>
         <td class="left">PAYMENT:</td>
-        <td class="right">{{ ["PISA", "ASCIICARD", "UNCOVER", "APEX"] | random }} XXXX XXXX XXXX {{ range(1111, 10000) | random }}</td>
+        <td class="right">{{ ["PISA", "ASCIICARD", "UNCOVER", "APEX", "INNERQUAC"] | random }} XXXX XXXX XXXX {{ range(1001, 10000) | random }}</td>
     </tr>
 </table>
 

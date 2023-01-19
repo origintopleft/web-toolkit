@@ -38,7 +38,13 @@ def generate_taxes_and_fees():
         "DTB",
         "Unreal Engine Royalties",
         "Mileage",
-        "Receipt Fee"
+        "Receipt Fee",
+        "Overseas Plumbing Tax",
+        "Mystery Fee! What could it be for?",
+        "Stargate Dialing Charges",
+        "Postage Fee",
+        "Lost to Bandits",
+        "Contribution to Candle Budget"
     ]
     
     random.shuffle(fee_types)
@@ -56,8 +62,7 @@ def init_error(nonsense=False):
             errcode = ''.join([random.choice(str_guestcheck_token_characters) for i in range(5)]) + errcode[5:]
     return errcode
 
-@core.app.route("/error/dummy")
-def render_dummy_error():
+def get_render_stylesheet():
     curhost = flask.request.host.split(":")[0]
     host_components = curhost.split(".")
     curdomain = ".".join(host_components[-2:])
@@ -68,13 +73,18 @@ def render_dummy_error():
     else: # dev
         stylesheet = flask.url_for("static", filename="css/guestcheck.css")
 
+    return stylesheet
+
+@core.app.route("/error/dummy")
+def render_dummy_error():
     order_items = []
     for _ in range(random.randint(1, 4)):
         order_items.append((generate_ticket_item(), generate_price()))
     return flask.render_template("guestcheck.j2", **{
         "page_title": "test",
         "order_items": order_items,
-        "styles": [stylesheet],
+        "styles": [get_render_stylesheet()],
         "errcode": init_error(nonsense=True),
+        "currency": random.choice("$€£§₪¤₿₹₽"),
         "taxesfees": generate_taxes_and_fees()
     })

@@ -1,5 +1,5 @@
 body {
-    font: 10pt sans-serif;
+    font-family: sans-serif;
     background: #5e133c;
 }
 
@@ -21,13 +21,36 @@ div.ticketitem {
     max-width: 900px;
     margin: auto;
     padding-bottom: 20px;
+
+    display: flex;
+
+    font-size: 1.135em;
 }
 
-table.receiptdata {
+div.itemdesc {
+    flex-grow: 3;
+}
+
+div.itemprice {
+    flex-grow: 1;
+    text-align: right;
+}
+
+table.receipttotal {
     border: 0px;
     width: 90%;
     max-width: 900px;
     margin: auto;
+}
+
+table.receiptdata {
+    border: 0px;
+    width: 80%;
+    max-width: 850px;
+    margin: auto;
+    
+    font-size: 0.925em;
+    font-family: monospace;
 }
 
 td.left {
@@ -43,6 +66,11 @@ td.long-right {
 
 span.entree {
     font-weight: bolder;
+}
+
+span.mod {
+    margin-left: 2.125em;
+    font-style: italic;
 }
 
 span.price {

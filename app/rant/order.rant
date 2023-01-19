@@ -15,9 +15,11 @@
                 [pick: <wordlist/nouns/cheese>] @weight 1 |
                 [pick: <wordlist/nouns/condiments>] @weight 1 |
                 [pick: <wordlist/nouns/music_theory>] @weight 0.5 |
+                [pick: <wordlist/nouns/music_production>] @weight 0.5 |
                 [pick: <wordlist/nouns/set_theory>] @weight 0.25 |
-                [pick: <wordlist/nouns/ghosts>] @weight 0.33
-            } `{stuffed|filled|covered}
+                [pick: <wordlist/nouns/ghosts>] @weight 0.33 |
+                [pick: <wordlist/nouns/web_development>] @weight 0.25
+            } `{stuffed|filled|covered|dipped|coated}
         } @weight 1 # stuffed/filled/covered
     }
 }
@@ -32,16 +34,17 @@
 [$mod_order] @text {
     {
         add | no | sub | extra |
-        half | left | right
+        half | left | right | side
     } `{
         [pick: <wordlist/nouns/condiments>] |
         [pick: <wordlist/nouns/cheese>] |
         [pick: <wordlist/nouns/food>] |
-        [pick: <wordlist/nouns/seasonings>]
+        [pick: <wordlist/nouns/seasonings>] |
+        [pick: <wordlist/nouns/plants>]
     }
 }
 
-[desc_food] `[either: [maybe: 0.325]; `[pick: <wordlist/nouns/meat>] `[get_entree]; [get_entree]]
+[desc_food] `[either: [maybe: 0.325]; `{[pick: <wordlist/nouns/meat>] | [pick: <wordlist/nouns/fish>] | [pick: <wordlist/nouns/apex_predators>]} `[get_entree]; [get_entree]]
 [if: [maybe]] {
     \n[mod_order]
     [if: [maybe: 0.333]] {
