@@ -31,6 +31,9 @@ def allocate_id():
     }
     logging.info("allocated id {0} to {1}".format(id, remote_addr))
 
+    if "token" in flask.request.args:
+        allocated_ids[id]["token"] = flask.request.args["token"]
+
     result_data = {}
     result_data["id"] = id
 
@@ -49,7 +52,10 @@ def release_id(id):
         # return 503 instead of 404 to prevent enumerations
         flask.abort(503)
 
-    if flask.request.remote_addr == allocated_ids[id]["addr"]:
+    if "token" in flask.request.args and flask.request.args["token"] == allocated_ids[id]["token"]:
+        del allocated_ids[id]
+        return flask.Response("ok", content_type="text/plain")
+    elif flask.request.remote_addr == allocated_ids[id]["addr"]:
         del allocated_ids[id]
         return flask.Response("ok", content_type="text/plain")
     else:
